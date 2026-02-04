@@ -1,0 +1,73 @@
+# IFRS-Compliant ERP MCP Server Requirements
+# Core dependencies for IFRS financial reporting and MCP server functionality
+
+# MCP Server Framework
+fastmcp>=2.14.5
+
+# Financial Calculations
+numpy>=1.26.0
+
+# Data Processing and Analysis
+pandas>=3.0.0
+
+# PDF Report Generation
+reportlab>=4.4.9
+
+# Excel Export Functionality
+openpyxl>=3.1.5
+
+# HTTP Client (for potential API integrations)
+httpx>=0.28.1
+
+# JSON Schema Validation
+jsonschema>=4.26.0
+
+# Date/Time Utilities (usually included with Python, but explicit for clarity)
+python-dateutil>=2.9.0
+
+# Type Hints Support (Python 3.11+ has this built-in, but for compatibility)
+typing-extensions>=4.15.0
+
+# Development and Testing Dependencies (optional)
+pytest>=8.0.0
+pytest-asyncio>=0.24.0
+
+# Database Utilities (SQLite is built-in, but these can be useful)
+sqlite-utils>=3.37.0
+
+# Logging and Configuration
+python-dotenv>=1.2.1
+
+# Rich Text Formatting (for better console output)
+rich>=14.3.2
+
+# Additional Utilities
+pytz>=2025.2
+
+# Security and Authentication (if needed for enterprise deployments)
+cryptography>=46.0.4
+
+# Web Server Components (included with FastMCP but listed for completeness)
+uvicorn>=0.40.0
+starlette>=0.52.1
+
+# Data Validation
+pydantic>=2.12.5
+
+# Math and Scientific Computing Support
+scipy>=1.14.0
+
+# Financial Mathematics (specialized library for advanced calculations)
+quantlib-python>=1.34.0
+
+# Excel Reading (if you need to import Excel files)
+xlrd>=2.0.1
+
+# CSV Processing (built-in but enhanced version)
+csvkit>=2.0.0
+
+# Memory Profiling (for performance optimization)
+memory-profiler>=0.61.0
+
+# Progress Bars (for long-running calculations)
+tqdm>=4.67.0

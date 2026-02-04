@@ -1,0 +1,17 @@
+# Minimal Requirements for IFRS ERP MCP Server
+# Only the essential libraries actually used in the codebase
+
+# MCP Server Framework
+fastmcp>=2.14.5
+
+# Financial Calculations (used in IFRS 16 lease calculations)
+numpy>=1.26.0
+
+# Data Processing (used for advanced data manipulation)
+pandas>=3.0.0
+
+# PDF Report Generation (used in disclosure_generator.py)
+reportlab>=4.4.9
+
+# Excel Export (used for financial statement exports)
+openpyxl>=3.1.5
