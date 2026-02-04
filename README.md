@@ -1,6 +1,17 @@
 # IFRS-Compliant ERP MCP Server
 
+[![GitHub Stars](https://img.shields.io/github/stars/Alielber1010/erp-agent-mcp?style=flat-square)](https://github.com/Alielber1010/erp-agent-mcp/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/Alielber1010/erp-agent-mcp?style=flat-square)](https://github.com/Alielber1010/erp-agent-mcp/issues)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg?style=flat-square)](https://www.python.org/downloads/)
+
 A comprehensive Model Context Protocol (MCP) server that transforms your ERP data into IFRS-compliant financial statements with automated calculations and professional disclosures.
+
+## 📺 Demo & Documentation
+
+- **Live Demo:** [Coming Soon]
+- **Documentation:** [GitHub Wiki](https://github.com/Alielber1010/erp-agent-mcp/wiki)
+- **API Reference:** [GitHub Pages](https://alielber1010.github.io/erp-agent-mcp/)
 
 ## 🎯 What This Does
 
@@ -180,6 +191,35 @@ The system comes with realistic sample data:
 - **Eliminate** calculation errors and inconsistencies
 - **Accelerate** month-end and year-end reporting
 
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Quick Contribution Areas
+- 🌍 Multi-currency support (IAS 21)
+- 🏢 Consolidation accounting (IFRS 10) 
+- 📊 Enhanced analytics and dashboards
+- 📚 Documentation improvements
+- 🧪 Additional test scenarios
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## ⭐ Support
+
+If this project helps you, please consider:
+- ⭐ Starring the repository
+- 🐛 Reporting bugs via [Issues](https://github.com/Alielber1010/erp-agent-mcp/issues)
+- 💡 Suggesting features via [Discussions](https://github.com/Alielber1010/erp-agent-mcp/discussions)
+- 🤝 Contributing code via [Pull Requests](https://github.com/Alielber1010/erp-agent-mcp/pulls)
+
+## 🔗 Related Projects
+
+- [FastMCP](https://github.com/jlowin/fastmcp) - The MCP framework powering this server
+- [Model Context Protocol](https://github.com/modelcontextprotocol) - Official MCP specification
+
 ---
 
-**Ready to transform your financial reporting?** Start the server and begin asking IFRS questions in natural language!
+**Ready to transform your financial reporting?** 
+[⚡ Get Started](https://github.com/Alielber1010/erp-agent-mcp#-quick-start) | [📖 Documentation](https://github.com/Alielber1010/erp-agent-mcp/wiki) | [💬 Discussions](https://github.com/Alielber1010/erp-agent-mcp/discussions)
