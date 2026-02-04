@@ -514,8 +514,7 @@ async def get_ifrs_mapped_accounts() -> dict:
             "success": False
         }
 
-@mcp.tool()
-async def get_trial_balance(start_date: str, end_date: str) -> dict:
+async def _get_trial_balance_impl(start_date: str, end_date: str) -> dict:
     """
     Get trial balance for period (foundation for IFRS statements).
     
@@ -566,6 +565,20 @@ async def get_trial_balance(start_date: str, end_date: str) -> dict:
             "error": str(e),
             "success": False
         }
+
+@mcp.tool()
+async def get_trial_balance(start_date: str, end_date: str) -> dict:
+    """
+    Get trial balance for period (foundation for IFRS statements).
+    
+    Args:
+        start_date: Period start date (YYYY-MM-DD)
+        end_date: Period end date (YYYY-MM-DD)
+        
+    Returns:
+        Trial balance with IFRS mapping
+    """
+    return await _get_trial_balance_impl(start_date, end_date)
 
 @mcp.tool()
 async def get_fixed_assets_register() -> dict:
@@ -657,8 +670,7 @@ async def get_revenue_contracts() -> dict:
             "success": False
         }
 
-@mcp.tool()
-async def get_receivables_aging() -> dict:
+async def _get_receivables_aging_impl() -> dict:
     """
     Get receivables aging for IFRS 9 ECL calculation.
     
@@ -666,20 +678,21 @@ async def get_receivables_aging() -> dict:
         Receivables aging analysis
     """
     try:
-        # Create receivables aging from invoices (simplified)
+        # Create receivables aging from invoices with customer info (fixed)
         sql = """
             SELECT 
-                invoice_id,
-                customer_id,
-                invoice_date,
-                due_date,
-                total_amount as amount,
+                i.invoice_id,
+                o.customer_id,
+                i.invoice_date,
+                i.due_date,
+                i.total_amount as amount,
                 CASE 
-                    WHEN due_date >= date('now') THEN 0
-                    ELSE julianday('now') - julianday(due_date)
+                    WHEN i.due_date >= date('now') THEN 0
+                    ELSE julianday('now') - julianday(i.due_date)
                 END as days_overdue
-            FROM invoices
-            WHERE status IN ('Sent', 'Overdue')
+            FROM invoices i
+            JOIN orders o ON i.order_id = o.order_id
+            WHERE i.status IN ('Sent', 'Overdue', 'Partial')
             ORDER BY days_overdue DESC
         """
         rows = execute_query(sql)
@@ -705,6 +718,16 @@ async def get_receivables_aging() -> dict:
             "error": str(e),
             "success": False
         }
+
+@mcp.tool()
+async def get_receivables_aging() -> dict:
+    """
+    Get receivables aging for IFRS 9 ECL calculation.
+    
+    Returns:
+        Receivables aging analysis
+    """
+    return await _get_receivables_aging_impl()
 
 # ---------- IFRS Calculation Functions ----------
 
@@ -901,29 +924,20 @@ async def perform_ias36_impairment_test(
 
 # ---------- IFRS Statement Generation Functions ----------
 
-@mcp.tool()
-async def generate_ifrs_profit_loss_statement(
+async def _generate_ifrs_profit_loss_statement_impl(
     period_start: str,
     period_end: str,
     include_adjustments: bool = True
 ) -> dict:
     """
-    Generate IFRS 18 compliant Profit or Loss statement.
-    
-    Args:
-        period_start: Period start date (YYYY-MM-DD)
-        period_end: Period end date (YYYY-MM-DD)
-        include_adjustments: Whether to include IFRS adjustments
-        
-    Returns:
-        IFRS Profit or Loss statement
+    Internal implementation for generating IFRS 18 compliant Profit or Loss statement.
     """
     if not IFRS_TOOLS_AVAILABLE:
         return {"error": "IFRS tools not available", "success": False}
     
     try:
         # Get trial balance
-        trial_balance_result = await get_trial_balance(period_start, period_end)
+        trial_balance_result = await _get_trial_balance_impl(period_start, period_end)
         if not trial_balance_result["success"]:
             return trial_balance_result
         
@@ -952,7 +966,25 @@ async def generate_ifrs_profit_loss_statement(
         }
 
 @mcp.tool()
-async def generate_ifrs_balance_sheet(
+async def generate_ifrs_profit_loss_statement(
+    period_start: str,
+    period_end: str,
+    include_adjustments: bool = True
+) -> dict:
+    """
+    Generate IFRS 18 compliant Profit or Loss statement.
+    
+    Args:
+        period_start: Period start date (YYYY-MM-DD)
+        period_end: Period end date (YYYY-MM-DD)
+        include_adjustments: Whether to include IFRS adjustments
+        
+    Returns:
+        IFRS Profit or Loss statement
+    """
+    return await _generate_ifrs_profit_loss_statement_impl(period_start, period_end, include_adjustments)
+
+async def _generate_ifrs_balance_sheet_impl(
     reporting_date: str,
     include_adjustments: bool = True
 ) -> dict:
@@ -1009,6 +1041,23 @@ async def generate_ifrs_balance_sheet(
         }
 
 @mcp.tool()
+async def generate_ifrs_balance_sheet(
+    reporting_date: str,
+    include_adjustments: bool = True
+) -> dict:
+    """
+    Generate IFRS compliant Statement of Financial Position.
+    
+    Args:
+        reporting_date: Balance sheet date (YYYY-MM-DD)
+        include_adjustments: Whether to include IFRS adjustments
+        
+    Returns:
+        IFRS Balance Sheet
+    """
+    return await _generate_ifrs_balance_sheet_impl(reporting_date, include_adjustments)
+
+@mcp.tool()
 async def generate_ifrs_cash_flow_statement(
     period_start: str,
     period_end: str,
@@ -1030,13 +1079,13 @@ async def generate_ifrs_cash_flow_statement(
     
     try:
         # Get P&L data
-        pl_result = await generate_ifrs_profit_loss_statement(period_start, period_end)
+        pl_result = await _generate_ifrs_profit_loss_statement_impl(period_start, period_end, True)
         if not pl_result["success"]:
             return pl_result
         
         # Get balance sheet data (current and prior)
-        bs_current = await generate_ifrs_balance_sheet(period_end)
-        bs_prior = await generate_ifrs_balance_sheet(period_start)
+        bs_current = await _generate_ifrs_balance_sheet_impl(period_end)
+        bs_prior = await _generate_ifrs_balance_sheet_impl(period_start)
         
         if not (bs_current["success"] and bs_prior["success"]):
             return {"error": "Could not generate balance sheet data", "success": False}
@@ -1082,8 +1131,8 @@ async def generate_ifrs_disclosure_notes(
         period_start = f"{reporting_period}-01-01"
         period_end = f"{reporting_period}-12-31"
         
-        pl_statement = await generate_ifrs_profit_loss_statement(period_start, period_end)
-        bs_statement = await generate_ifrs_balance_sheet(period_end)
+        pl_statement = await _generate_ifrs_profit_loss_statement_impl(period_start, period_end, True)
+        bs_statement = await _generate_ifrs_balance_sheet_impl(period_end)
         
         financial_statements = {
             "profit_loss": pl_statement.get("statement", {}),
