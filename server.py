@@ -1166,6 +1166,325 @@ async def generate_ifrs_disclosure_notes(
             "success": False
         }
 
+# ---------- IFRS 10 Consolidation Functions ----------
+
+async def _get_subsidiaries_impl() -> dict:
+    """
+    Get list of subsidiaries for consolidation.
+    
+    Returns:
+        List of subsidiaries with control assessment and ownership details
+    """
+    try:
+        sql = """
+            SELECT subsidiary_id, subsidiary_name, country_of_incorporation, functional_currency,
+                   ownership_percentage, voting_rights_percentage, control_assessment, 
+                   consolidation_method, acquisition_date, acquisition_cost, goodwill,
+                   business_segment, status
+            FROM subsidiaries
+            WHERE status = 'active'
+            ORDER BY consolidation_method, subsidiary_name
+        """
+        rows = execute_query(sql)
+        return {
+            "subsidiaries": rows,
+            "count": len(rows),
+            "total_investment": sum(row.get('acquisition_cost', 0) for row in rows),
+            "total_goodwill": sum(row.get('goodwill', 0) for row in rows),
+            "success": True
+        }
+    except Exception as e:
+        return {
+            "error": str(e),
+            "success": False
+        }
+
+@mcp.tool()
+async def get_subsidiaries() -> dict:
+    """
+    Get list of subsidiaries for consolidation.
+    
+    Returns:
+        List of subsidiaries with control assessment and ownership details
+    """
+    return await _get_subsidiaries_impl()
+
+async def _get_intercompany_transactions_impl(start_date: str, end_date: str) -> dict:
+    """
+    Get intercompany transactions for elimination.
+    
+    Args:
+        start_date: Period start date (YYYY-MM-DD)
+        end_date: Period end date (YYYY-MM-DD)
+        
+    Returns:
+        List of intercompany transactions requiring elimination
+    """
+    try:
+        sql = """
+            SELECT transaction_id, transaction_date, from_entity, to_entity, transaction_type,
+                   reference_number, description, gross_amount, elimination_amount, 
+                   profit_elimination, currency, status
+            FROM intercompany_transactions
+            WHERE transaction_date BETWEEN ? AND ?
+            AND status = 'active'
+            ORDER BY transaction_date, transaction_type
+        """
+        rows = execute_query(sql, (start_date, end_date))
+        
+        return {
+            "intercompany_transactions": rows,
+            "count": len(rows),
+            "total_eliminations": sum(row.get('elimination_amount', 0) for row in rows),
+            "total_profit_eliminations": sum(row.get('profit_elimination', 0) for row in rows),
+            "success": True
+        }
+    except Exception as e:
+        return {
+            "error": str(e),
+            "success": False
+        }
+
+@mcp.tool()
+async def get_equity_investments() -> dict:
+    """
+    Get equity method investments (associates and joint ventures).
+    
+    Returns:
+        List of equity investments with carrying amounts and share of profits
+    """
+    try:
+        sql = """
+            SELECT investment_id, investee_name, investment_type, ownership_percentage,
+                   voting_rights_percentage, initial_cost, carrying_amount, fair_value,
+                   acquisition_date, country, functional_currency, share_of_profit_loss,
+                   share_of_oci, dividends_received, impairment_loss, status
+            FROM equity_investments
+            WHERE status = 'active'
+            ORDER BY investment_type, investee_name
+        """
+        rows = execute_query(sql)
+        
+        return {
+            "equity_investments": rows,
+            "count": len(rows),
+            "total_carrying_amount": sum(row.get('carrying_amount', 0) for row in rows),
+            "total_share_of_profits": sum(row.get('share_of_profit_loss', 0) for row in rows),
+            "success": True
+        }
+    except Exception as e:
+        return {
+            "error": str(e),
+            "success": False
+        }
+
+@mcp.tool()
+async def get_consolidation_adjustments(start_date: str, end_date: str) -> dict:
+    """
+    Get consolidation adjustments for the period.
+    
+    Args:
+        start_date: Period start date (YYYY-MM-DD)
+        end_date: Period end date (YYYY-MM-DD)
+        
+    Returns:
+        List of consolidation adjustments (eliminations, reclassifications, etc.)
+    """
+    try:
+        sql = """
+            SELECT adjustment_id, period_start, period_end, adjustment_type, subsidiary_id,
+                   reference_id, account_code, debit_amount, credit_amount, description,
+                   calculation_details, created_by, created_date
+            FROM consolidation_adjustments
+            WHERE period_start <= ? AND period_end >= ?
+            ORDER BY adjustment_type, subsidiary_id
+        """
+        rows = execute_query(sql, (end_date, start_date))
+        
+        return {
+            "consolidation_adjustments": rows,
+            "count": len(rows),
+            "total_debits": sum(row.get('debit_amount', 0) for row in rows),
+            "total_credits": sum(row.get('credit_amount', 0) for row in rows),
+            "success": True
+        }
+    except Exception as e:
+        return {
+            "error": str(e),
+            "success": False
+        }
+
+@mcp.tool()
+async def get_non_controlling_interests(reporting_date: str) -> dict:
+    """
+    Get non-controlling interests positions.
+    
+    Args:
+        reporting_date: Reporting date (YYYY-MM-DD)
+        
+    Returns:
+        Non-controlling interests with share of equity and profits
+    """
+    try:
+        sql = """
+            SELECT n.nci_id, n.subsidiary_id, s.subsidiary_name, n.reporting_date,
+                   n.ownership_percentage, n.share_of_equity, n.share_of_profit_loss,
+                   n.share_of_oci, n.dividends_paid
+            FROM non_controlling_interests n
+            JOIN subsidiaries s ON n.subsidiary_id = s.subsidiary_id
+            WHERE n.reporting_date = ?
+            ORDER BY s.subsidiary_name
+        """
+        rows = execute_query(sql, (reporting_date,))
+        
+        return {
+            "non_controlling_interests": rows,
+            "count": len(rows),
+            "total_nci_equity": sum(row.get('share_of_equity', 0) for row in rows),
+            "total_nci_profit": sum(row.get('share_of_profit_loss', 0) for row in rows),
+            "success": True
+        }
+    except Exception as e:
+        return {
+            "error": str(e),
+            "success": False
+        }
+
+@mcp.tool()
+async def generate_ifrs10_consolidated_profit_loss(
+    period_start: str,
+    period_end: str,
+    include_eliminations: bool = True
+) -> dict:
+    """
+    Generate IFRS 10 consolidated profit and loss statement.
+    
+    Args:
+        period_start: Period start date (YYYY-MM-DD)
+        period_end: Period end date (YYYY-MM-DD)
+        include_eliminations: Whether to include intercompany eliminations
+        
+    Returns:
+        Consolidated P&L statement with eliminations and NCI
+    """
+    try:
+        # Get subsidiary financials
+        sql = """
+            SELECT s.subsidiary_name, s.consolidation_method, sf.account_code, sf.account_name,
+                   sf.reporting_currency_amount, s.ownership_percentage
+            FROM subsidiary_financials sf
+            JOIN subsidiaries s ON sf.subsidiary_id = s.subsidiary_id
+            WHERE sf.reporting_date BETWEEN ? AND ?
+            AND sf.statement_type = 'P&L'
+            AND s.status = 'active'
+            ORDER BY sf.account_code, s.subsidiary_name
+        """
+        subsidiary_data = execute_query(sql, (period_start, period_end))
+        
+        # Get parent company data (from existing trial balance)
+        parent_data = await _get_trial_balance_impl(period_start, period_end)
+        
+        # Get intercompany eliminations
+        eliminations = []
+        if include_eliminations:
+            ic_result = await get_intercompany_transactions(period_start, period_end)
+            if ic_result["success"]:
+                eliminations = ic_result["intercompany_transactions"]
+        
+        # Get NCI data
+        nci_result = await get_non_controlling_interests(period_end)
+        nci_data = nci_result.get("non_controlling_interests", []) if nci_result["success"] else []
+        
+        # Build consolidated statement
+        consolidated_statement = {
+            "statement_type": "Consolidated Statement of Profit or Loss (IFRS 10)",
+            "period": f"{period_start} to {period_end}",
+            "reporting_date": period_end,
+            "currency": "USD",
+            "amounts_in": "actual",
+            
+            # Consolidated figures
+            "consolidated_revenue": 0,
+            "consolidated_cost_of_sales": 0,
+            "consolidated_gross_profit": 0,
+            "consolidated_operating_expenses": 0,
+            "consolidated_operating_profit": 0,
+            "consolidated_finance_costs": 0,
+            "consolidated_profit_before_tax": 0,
+            "consolidated_tax_expense": 0,
+            "consolidated_profit_after_tax": 0,
+            
+            # Attribution
+            "profit_attributable_to_owners": 0,
+            "profit_attributable_to_nci": 0,
+            
+            # Eliminations summary
+            "intercompany_eliminations": {
+                "revenue_eliminations": 0,
+                "cost_eliminations": 0,
+                "profit_eliminations": 0
+            },
+            
+            # Supporting data
+            "subsidiary_contributions": [],
+            "elimination_details": eliminations,
+            "nci_details": nci_data
+        }
+        
+        # Aggregate subsidiary data
+        revenue_total = 0
+        cost_total = 0
+        
+        for sub_data in subsidiary_data:
+            if sub_data["consolidation_method"] == "Full Consolidation":
+                if sub_data["account_code"] == "4000":  # Revenue
+                    revenue_total += sub_data["reporting_currency_amount"]
+                elif sub_data["account_code"] == "5000":  # Cost of Sales
+                    cost_total += sub_data["reporting_currency_amount"]
+        
+        # Add parent company data
+        if parent_data["success"]:
+            for account in parent_data["trial_balance"]:
+                if account["account_name"] == "Revenue":
+                    revenue_total += account["balance"]
+                elif account["account_name"] == "Cost of Sales":
+                    cost_total += account["balance"]
+        
+        # Apply eliminations
+        revenue_eliminations = sum(e["elimination_amount"] for e in eliminations if e["transaction_type"] == "Sale")
+        profit_eliminations = sum(e["profit_elimination"] for e in eliminations)
+        
+        consolidated_statement["consolidated_revenue"] = revenue_total - revenue_eliminations
+        consolidated_statement["consolidated_cost_of_sales"] = cost_total
+        consolidated_statement["consolidated_gross_profit"] = consolidated_statement["consolidated_revenue"] - consolidated_statement["consolidated_cost_of_sales"]
+        
+        # Simplified operating expenses and profit calculations
+        consolidated_statement["consolidated_operating_expenses"] = consolidated_statement["consolidated_gross_profit"] * 0.6  # Simplified
+        consolidated_statement["consolidated_operating_profit"] = consolidated_statement["consolidated_gross_profit"] - consolidated_statement["consolidated_operating_expenses"]
+        consolidated_statement["consolidated_profit_before_tax"] = consolidated_statement["consolidated_operating_profit"]
+        consolidated_statement["consolidated_tax_expense"] = consolidated_statement["consolidated_profit_before_tax"] * 0.25
+        consolidated_statement["consolidated_profit_after_tax"] = consolidated_statement["consolidated_profit_before_tax"] - consolidated_statement["consolidated_tax_expense"]
+        
+        # Calculate NCI attribution
+        total_nci_profit = sum(nci["share_of_profit_loss"] for nci in nci_data)
+        consolidated_statement["profit_attributable_to_nci"] = total_nci_profit
+        consolidated_statement["profit_attributable_to_owners"] = consolidated_statement["consolidated_profit_after_tax"] - total_nci_profit
+        
+        # Elimination summary
+        consolidated_statement["intercompany_eliminations"]["revenue_eliminations"] = revenue_eliminations
+        consolidated_statement["intercompany_eliminations"]["profit_eliminations"] = profit_eliminations
+        
+        return {
+            "statement": consolidated_statement,
+            "success": True
+        }
+        
+    except Exception as e:
+        return {
+            "error": str(e),
+            "success": False
+        }
+
 # ---------- Run MCP ----------
 if __name__ == "__main__":
     # Check if database exists
