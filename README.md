@@ -1,10 +1,7 @@
 # 🏢 Enterprise IFRS MCP Server
 *Complete International Financial Reporting Standards automation for AI assistants*
 
-[![GitHub Stars](https://img.shields.io/github/stars/Alielber1010/erp-agent-mcp?style=flat-square)](https://github.com/Alielber1010/erp-agent-mcp/stargazers)
-[![GitHub Issues](https://img.shields.io/github/issues/Alielber1010/erp-agent-mcp?style=flat-square)](https://github.com/Alielber1010/erp-agent-mcp/issues)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg?style=flat-square)](https://www.python.org/downloads/)
+https://dify.orient-apps.com/chat/DgblK0wiRfv98wx5
 
 Transform your ERP data into professional IFRS-compliant financial statements with automated calculations, consolidation, and audit-ready disclosures. Built for AI assistants like Claude, ChatGPT, and enterprise finance teams.
 
@@ -34,198 +31,83 @@ This MCP server provides **24+ specialized financial tools** covering:
 - Equity method accounting for associates/joint ventures
 - Goodwill and acquisition accounting
 
-## 🚀 Quick Start
-
-### 1. Installation
-```bash
-# Clone the repository
-git clone https://github.com/Alielber1010/erp-agent-mcp.git
-cd erp-agent-mcp
-
-# Install dependencies
-pip install -r requirements-minimal.txt
-
-# Start the server
-python server.py
-```
-Server runs on `http://localhost:8027`
-
-### 2. Connect Your AI Assistant
-Configure your AI assistant (Claude, ChatGPT, etc.) to use the MCP server at the above URL.
-
-### 3. Start Asking Financial Questions!
-The system comes with comprehensive sample data including Fortune 500 customers, $6B+ in revenue, and complex IFRS scenarios.
-
 ## 💡 Example Questions You Can Ask
 
 ### 🏢 **Single Entity IFRS Questions**
 
 #### **Lease Accounting (IFRS 16)**
-```
-"Calculate IFRS 16 lease accounting for our Manhattan office lease:
-- 5-year lease starting January 2026
-- Annual rent: $480,000 paid monthly
-- Our incremental borrowing rate is 6%
-Show me the lease liability, ROU asset, and monthly journal entries."
-```
+**Question:** "Calculate IFRS 16 lease accounting for our Manhattan office lease: 5-year lease starting January 2026, annual rent $480,000 paid monthly, incremental borrowing rate 6%. Show me the lease liability, ROU asset, and monthly journal entries."
 
-```
-"What's the total impact of all our leases on the balance sheet? Show me the ROU assets and lease liabilities by lease type."
-```
+**Question:** "What's the total impact of all our leases on the balance sheet? Show me the ROU assets and lease liabilities by lease type."
 
 #### **Expected Credit Loss (IFRS 9)**
-```
-"Analyze our receivables for expected credit losses. Get the aging analysis and calculate IFRS 9 ECL provisions by stage. What's our total provision requirement?"
-```
+**Question:** "Analyze our receivables for expected credit losses. Get the aging analysis and calculate IFRS 9 ECL provisions by stage. What's our total provision requirement?"
 
-```
-"Which customers are in ECL Stage 3 and what's the provision for each? Show me the detailed aging breakdown."
-```
+**Question:** "Which customers are in ECL Stage 3 and what's the provision for each? Show me the detailed aging breakdown."
 
 #### **Revenue Recognition (IFRS 15)**
-```
-"We have a $2.5M software implementation contract with Microsoft:
-- Software license: $1.5M (delivered immediately)
-- Implementation: $800M (over 8 months)
-- Training: $200K (2-week program)
-How should we recognize revenue under IFRS 15?"
-```
+**Question:** "We have a $2.5M software implementation contract with Microsoft: Software license $1.5M (delivered immediately), Implementation $800K (over 8 months), Training $200K (2-week program). How should we recognize revenue under IFRS 15?"
 
-```
-"Show me all our active revenue contracts and their recognition patterns. Which ones are 'over time' vs 'point in time'?"
-```
+**Question:** "Show me all our active revenue contracts and their recognition patterns. Which ones are 'over time' vs 'point in time'?"
 
 #### **Asset Management (IAS 16)**
-```
-"Calculate depreciation for our $15M headquarters building:
-- Acquired January 2022
-- 40-year useful life
-- $1.5M residual value
-- Straight-line method
-What's the current carrying amount and annual depreciation?"
-```
+**Question:** "Calculate depreciation for our $15M headquarters building: Acquired January 2022, 40-year useful life, $1.5M residual value, straight-line method. What's the current carrying amount and annual depreciation?"
 
-```
-"Perform an impairment test on our manufacturing equipment. The carrying amount is $2.4M but fair value less costs to sell is only $2.1M."
-```
+**Question:** "Perform an impairment test on our manufacturing equipment. The carrying amount is $2.4M but fair value less costs to sell is only $2.1M."
 
 ### 🌐 **Consolidated Group Questions (IFRS 10)**
 
 #### **Group Structure Analysis**
-```
-"Show me our complete group structure. Which entities do we fully consolidate vs equity method? What are our ownership percentages?"
-```
+**Question:** "Show me our complete group structure. Which entities do we fully consolidate vs equity method? What are our ownership percentages?"
 
-```
-"What's our total investment in subsidiaries and associates? How much goodwill do we have from acquisitions?"
-```
+**Question:** "What's our total investment in subsidiaries and associates? How much goodwill do we have from acquisitions?"
 
 #### **Intercompany Eliminations**
-```
-"Identify all intercompany transactions for 2026 that need elimination. Show me sales, loans, management fees, and the profit elimination amounts."
-```
+**Question:** "Identify all intercompany transactions for 2026 that need elimination. Show me sales, loans, management fees, and the profit elimination amounts."
 
-```
-"What's the impact of intercompany eliminations on our consolidated revenue? Show me the calculation from combined to consolidated figures."
-```
+**Question:** "What's the impact of intercompany eliminations on our consolidated revenue? Show me the calculation from combined to consolidated figures."
 
 #### **Non-Controlling Interests**
-```
-"Calculate the non-controlling interests' share of equity and profit. Which subsidiaries have NCI and what are their percentages?"
-```
+**Question:** "Calculate the non-controlling interests' share of equity and profit. Which subsidiaries have NCI and what are their percentages?"
 
 #### **Consolidated Statements**
-```
-"Generate consolidated financial statements for 2026 including:
-- Consolidated profit and loss with NCI attribution
-- All intercompany eliminations
-- Equity method investment income
-- Multi-currency translation adjustments"
-```
+**Question:** "Generate consolidated financial statements for 2026 including: Consolidated profit and loss with NCI attribution, all intercompany eliminations, equity method investment income, and multi-currency translation adjustments."
 
 ### 📊 **Complete Financial Reporting**
 
 #### **Full IFRS Statement Package**
-```
-"Generate complete IFRS financial statements for 2026:
-- Consolidated P&L with segment analysis
-- Statement of Financial Position with comparative figures
-- Cash flow statement using indirect method
-- Statement of changes in equity
-- All required disclosure notes
-Include all IFRS adjustments and consolidation entries."
-```
+**Question:** "Generate complete IFRS financial statements for 2026: Consolidated P&L with segment analysis, Statement of Financial Position with comparative figures, Cash flow statement using indirect method, Statement of changes in equity, and all required disclosure notes. Include all IFRS adjustments and consolidation entries."
 
 #### **Management Reporting**
-```
-"Create a management dashboard showing:
-- Key financial metrics and ratios
-- IFRS adjustment impacts
-- Lease portfolio maturity analysis
-- Credit risk exposure by customer segment
-- Subsidiary performance comparison"
-```
+**Question:** "Create a management dashboard showing: Key financial metrics and ratios, IFRS adjustment impacts, lease portfolio maturity analysis, credit risk exposure by customer segment, and subsidiary performance comparison."
 
 #### **Audit Preparation**
-```
-"Prepare audit-ready IFRS documentation:
-- Trial balance with IFRS mapping
-- All journal entries for IFRS adjustments
-- Lease calculation workpapers
-- ECL model documentation
-- Consolidation workpapers with elimination details
-- Disclosure note drafts"
-```
+**Question:** "Prepare audit-ready IFRS documentation: Trial balance with IFRS mapping, all journal entries for IFRS adjustments, lease calculation workpapers, ECL model documentation, consolidation workpapers with elimination details, and disclosure note drafts."
 
 ### 🔍 **Analytical Questions**
 
 #### **Performance Analysis**
-```
-"Compare our financial performance across subsidiaries. Which entities are most profitable? Show revenue, margins, and ROI by subsidiary."
-```
+**Question:** "Compare our financial performance across subsidiaries. Which entities are most profitable? Show revenue, margins, and ROI by subsidiary."
 
-```
-"Analyze our customer portfolio. Who are our top customers by revenue? What's our credit risk exposure by customer segment?"
-```
+**Question:** "Analyze our customer portfolio. Who are our top customers by revenue? What's our credit risk exposure by customer segment?"
 
 #### **Trend Analysis**
-```
-"Show me 3-year trends for:
-- Consolidated revenue growth
-- IFRS adjustment impacts
-- Lease portfolio changes
-- Credit loss provisions
-- Asset base evolution"
-```
+**Question:** "Show me 3-year trends for: Consolidated revenue growth, IFRS adjustment impacts, lease portfolio changes, credit loss provisions, and asset base evolution."
 
 #### **Scenario Analysis**
-```
-"What would be the impact if we acquired a new subsidiary for $10M with $2M annual revenue? Show the consolidation effects and goodwill calculation."
-```
+**Question:** "What would be the impact if we acquired a new subsidiary for $10M with $2M annual revenue? Show the consolidation effects and goodwill calculation."
 
 ### 🎯 **Specific IFRS Queries**
 
 #### **Technical IFRS Questions**
-```
-"Explain our lease classification decisions. Why are certain leases treated as finance vs operating under previous standards?"
-```
+**Question:** "Explain our lease classification decisions. Why are certain leases treated as finance vs operating under previous standards?"
 
-```
-"Document our significant accounting estimates and judgments for:
-- ECL model parameters
-- Asset useful lives
-- Impairment indicators
-- Revenue contract terms"
-```
+**Question:** "Document our significant accounting estimates and judgments for: ECL model parameters, asset useful lives, impairment indicators, and revenue contract terms."
 
 #### **Compliance Verification**
-```
-"Verify our IFRS 15 revenue recognition is compliant. Check all contracts for proper performance obligation identification and transaction price allocation."
-```
+**Question:** "Verify our IFRS 15 revenue recognition is compliant. Check all contracts for proper performance obligation identification and transaction price allocation."
 
-```
-"Review our IFRS 16 lease accounting. Are all leases properly identified and measured? Check for any embedded leases in service contracts."
-```
+**Question:** "Review our IFRS 16 lease accounting. Are all leases properly identified and measured? Check for any embedded leases in service contracts."
 
 ## 🛠️ Available MCP Tools (24+)
 
@@ -340,19 +222,13 @@ Include all IFRS adjustments and consolidation entries."
 ## 🚀 Getting Started Examples
 
 ### Basic IFRS Analysis
-```
-"Show me our current financial position. Generate a trial balance and identify any IFRS adjustments needed for leases, receivables, and depreciation."
-```
+**Question:** "Show me our current financial position. Generate a trial balance and identify any IFRS adjustments needed for leases, receivables, and depreciation."
 
 ### Comprehensive Reporting
-```
-"Prepare our year-end IFRS financial statements with full consolidation, including all subsidiaries, intercompany eliminations, and required disclosures."
-```
+**Question:** "Prepare our year-end IFRS financial statements with full consolidation, including all subsidiaries, intercompany eliminations, and required disclosures."
 
 ### Specific Standard Focus
-```
-"Focus on IFRS 16 compliance. Show me all our leases, calculate the balance sheet impact, and prepare the lease disclosure note."
-```
+**Question:** "Focus on IFRS 16 compliance. Show me all our leases, calculate the balance sheet impact, and prepare the lease disclosure note."
 
 ## 🤝 Contributing
 
