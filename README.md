@@ -1,225 +1,393 @@
-# IFRS-Compliant ERP MCP Server
+# 🏢 Enterprise IFRS MCP Server
+*Complete International Financial Reporting Standards automation for AI assistants*
 
 [![GitHub Stars](https://img.shields.io/github/stars/Alielber1010/erp-agent-mcp?style=flat-square)](https://github.com/Alielber1010/erp-agent-mcp/stargazers)
 [![GitHub Issues](https://img.shields.io/github/issues/Alielber1010/erp-agent-mcp?style=flat-square)](https://github.com/Alielber1010/erp-agent-mcp/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg?style=flat-square)](https://www.python.org/downloads/)
 
-A comprehensive Model Context Protocol (MCP) server that transforms your ERP data into IFRS-compliant financial statements with automated calculations and professional disclosures.
+Transform your ERP data into professional IFRS-compliant financial statements with automated calculations, consolidation, and audit-ready disclosures. Built for AI assistants like Claude, ChatGPT, and enterprise finance teams.
 
-## 📺 Demo & Documentation
+## 🎯 What This System Does
 
-- **Live Demo:** [Coming Soon]
-- **Documentation:** [GitHub Wiki](https://github.com/Alielber1010/erp-agent-mcp/wiki)
-- **API Reference:** [GitHub Pages](https://alielber1010.github.io/erp-agent-mcp/)
+This MCP server provides **24+ specialized financial tools** covering:
 
-## 🎯 What This Does
+### 📊 **Core IFRS Standards**
+- **IFRS 16** - Lease accounting (ROU assets, lease liabilities, depreciation)
+- **IFRS 15** - Revenue recognition from contracts with customers
+- **IFRS 10** - Consolidated financial statements for group entities
+- **IFRS 9** - Expected credit loss calculations (3-stage model)
+- **IAS 16** - Property, plant & equipment depreciation and impairment
+- **IAS 36** - Asset impairment testing
 
-This MCP server connects to your existing ERP database and provides 18+ specialized tools for:
-- **IFRS 16** lease accounting (ROU assets, lease liabilities)
-- **IFRS 9** expected credit loss calculations
-- **IFRS 15** revenue recognition from contracts
-- **IAS 16** property, plant & equipment depreciation
-- **Complete financial statement generation** (P&L, Balance Sheet, Cash Flow)
-- **Professional disclosure notes** with automated formatting
+### 🏗️ **Financial Statement Generation**
+- Statement of Profit or Loss (IFRS 18 compliant)
+- Statement of Financial Position (Balance Sheet)
+- Statement of Cash Flows (Direct/Indirect method)
+- Statement of Changes in Equity
+- Professional disclosure notes with automated formatting
+
+### 🌐 **Enterprise Features**
+- Multi-entity consolidation with intercompany eliminations
+- Non-controlling interests calculations
+- Multi-currency operations with translation
+- Equity method accounting for associates/joint ventures
+- Goodwill and acquisition accounting
 
 ## 🚀 Quick Start
 
-1. **Start the server:**
-   ```bash
-   python server.py
-   ```
-   Server runs on `http://localhost:8027`
+### 1. Installation
+```bash
+# Clone the repository
+git clone https://github.com/Alielber1010/erp-agent-mcp.git
+cd erp-agent-mcp
 
-2. **Connect from your AI assistant** (Claude, ChatGPT, etc.) using MCP protocol
+# Install dependencies
+pip install -r requirements-minimal.txt
 
-3. **Start asking IFRS questions!**
-
-## 💡 Use Cases & Example Prompts
-
-### 1. Lease Accounting (IFRS 16)
-**Use Case:** Calculate lease liabilities and right-of-use assets for office, equipment, or vehicle leases.
-
-**Example Prompt:**
+# Start the server
+python server.py
 ```
-"Calculate the IFRS 16 lease accounting for our new office lease:
-- Lease starts January 1, 2026
-- Lease ends December 31, 2030  
-- Annual payment: $48,000
-- Monthly payments
-- Our borrowing rate is 6%
+Server runs on `http://localhost:8027`
 
-Show me the lease liability, ROU asset, and annual depreciation."
+### 2. Connect Your AI Assistant
+Configure your AI assistant (Claude, ChatGPT, etc.) to use the MCP server at the above URL.
+
+### 3. Start Asking Financial Questions!
+The system comes with comprehensive sample data including Fortune 500 customers, $6B+ in revenue, and complex IFRS scenarios.
+
+## 💡 Example Questions You Can Ask
+
+### 🏢 **Single Entity IFRS Questions**
+
+#### **Lease Accounting (IFRS 16)**
 ```
-
-### 2. Expected Credit Loss (IFRS 9)
-**Use Case:** Calculate provisions for bad debts using the 3-stage ECL model.
-
-**Example Prompt:**
-```
-"Analyze our receivables for expected credit losses. Get the current receivables aging and calculate the IFRS 9 ECL provision. Show me the breakdown by stage and the total provision needed."
+"Calculate IFRS 16 lease accounting for our Manhattan office lease:
+- 5-year lease starting January 2026
+- Annual rent: $480,000 paid monthly
+- Our incremental borrowing rate is 6%
+Show me the lease liability, ROU asset, and monthly journal entries."
 ```
 
-### 3. Revenue Recognition (IFRS 15)
-**Use Case:** Properly recognize revenue from multi-element contracts.
-
-**Example Prompt:**
 ```
-"We have a software contract with:
-- Software license: $60,000 (delivered immediately)
-- Implementation services: $30,000 (6 months)
-- Annual support: $20,000 (ongoing)
-
-How should we recognize revenue under IFRS 15? Show the allocation and recognition pattern."
+"What's the total impact of all our leases on the balance sheet? Show me the ROU assets and lease liabilities by lease type."
 ```
 
-### 4. Asset Depreciation (IAS 16)
-**Use Case:** Calculate depreciation schedules and check for impairment.
-
-**Example Prompt:**
+#### **Expected Credit Loss (IFRS 9)**
 ```
-"Calculate depreciation for our manufacturing equipment:
-- Cost: $150,000
-- Useful life: 10 years
-- Residual value: $15,000
-- Acquired: January 2022
-
-Show current carrying amount and annual depreciation expense."
+"Analyze our receivables for expected credit losses. Get the aging analysis and calculate IFRS 9 ECL provisions by stage. What's our total provision requirement?"
 ```
 
-### 5. Complete Financial Statements
-**Use Case:** Generate full IFRS-compliant financial statements.
-
-**Example Prompt:**
 ```
-"Generate complete IFRS financial statements for 2026 including:
-- Statement of Profit or Loss
-- Statement of Financial Position  
-- Statement of Cash Flows
+"Which customers are in ECL Stage 3 and what's the provision for each? Show me the detailed aging breakdown."
+```
+
+#### **Revenue Recognition (IFRS 15)**
+```
+"We have a $2.5M software implementation contract with Microsoft:
+- Software license: $1.5M (delivered immediately)
+- Implementation: $800M (over 8 months)
+- Training: $200K (2-week program)
+How should we recognize revenue under IFRS 15?"
+```
+
+```
+"Show me all our active revenue contracts and their recognition patterns. Which ones are 'over time' vs 'point in time'?"
+```
+
+#### **Asset Management (IAS 16)**
+```
+"Calculate depreciation for our $15M headquarters building:
+- Acquired January 2022
+- 40-year useful life
+- $1.5M residual value
+- Straight-line method
+What's the current carrying amount and annual depreciation?"
+```
+
+```
+"Perform an impairment test on our manufacturing equipment. The carrying amount is $2.4M but fair value less costs to sell is only $2.1M."
+```
+
+### 🌐 **Consolidated Group Questions (IFRS 10)**
+
+#### **Group Structure Analysis**
+```
+"Show me our complete group structure. Which entities do we fully consolidate vs equity method? What are our ownership percentages?"
+```
+
+```
+"What's our total investment in subsidiaries and associates? How much goodwill do we have from acquisitions?"
+```
+
+#### **Intercompany Eliminations**
+```
+"Identify all intercompany transactions for 2026 that need elimination. Show me sales, loans, management fees, and the profit elimination amounts."
+```
+
+```
+"What's the impact of intercompany eliminations on our consolidated revenue? Show me the calculation from combined to consolidated figures."
+```
+
+#### **Non-Controlling Interests**
+```
+"Calculate the non-controlling interests' share of equity and profit. Which subsidiaries have NCI and what are their percentages?"
+```
+
+#### **Consolidated Statements**
+```
+"Generate consolidated financial statements for 2026 including:
+- Consolidated profit and loss with NCI attribution
+- All intercompany eliminations
+- Equity method investment income
+- Multi-currency translation adjustments"
+```
+
+### 📊 **Complete Financial Reporting**
+
+#### **Full IFRS Statement Package**
+```
+"Generate complete IFRS financial statements for 2026:
+- Consolidated P&L with segment analysis
+- Statement of Financial Position with comparative figures
+- Cash flow statement using indirect method
+- Statement of changes in equity
 - All required disclosure notes
-
-Include all IFRS adjustments for leases, ECL, and depreciation."
+Include all IFRS adjustments and consolidation entries."
 ```
 
-### 6. Specific IFRS Analysis
-**Use Case:** Get detailed analysis of specific IFRS requirements.
-
-**Example Prompts:**
+#### **Management Reporting**
 ```
-"Show me all our active leases and their IFRS 16 impact on the balance sheet."
-
-"What's our total expected credit loss provision and how does it break down by customer aging?"
-
-"Generate the property, plant & equipment note with depreciation methods and useful lives."
-
-"Create a lease maturity analysis showing payments due in the next 5 years."
+"Create a management dashboard showing:
+- Key financial metrics and ratios
+- IFRS adjustment impacts
+- Lease portfolio maturity analysis
+- Credit risk exposure by customer segment
+- Subsidiary performance comparison"
 ```
 
-### 7. Compliance Reporting
-**Use Case:** Prepare audit-ready IFRS documentation.
-
-**Example Prompt:**
+#### **Audit Preparation**
 ```
-"Prepare a complete IFRS compliance package including:
-- All financial statements with comparative figures
-- Detailed accounting policy notes
-- Risk management disclosures
-- Significant estimates and judgments
-- Export everything to PDF format"
+"Prepare audit-ready IFRS documentation:
+- Trial balance with IFRS mapping
+- All journal entries for IFRS adjustments
+- Lease calculation workpapers
+- ECL model documentation
+- Consolidation workpapers with elimination details
+- Disclosure note drafts"
 ```
 
-## 🔧 Available MCP Tools
+### 🔍 **Analytical Questions**
 
-### Database Query Tools (6)
-- `get_ifrs_mapped_accounts` - Chart of accounts with IFRS mapping
+#### **Performance Analysis**
+```
+"Compare our financial performance across subsidiaries. Which entities are most profitable? Show revenue, margins, and ROI by subsidiary."
+```
+
+```
+"Analyze our customer portfolio. Who are our top customers by revenue? What's our credit risk exposure by customer segment?"
+```
+
+#### **Trend Analysis**
+```
+"Show me 3-year trends for:
+- Consolidated revenue growth
+- IFRS adjustment impacts
+- Lease portfolio changes
+- Credit loss provisions
+- Asset base evolution"
+```
+
+#### **Scenario Analysis**
+```
+"What would be the impact if we acquired a new subsidiary for $10M with $2M annual revenue? Show the consolidation effects and goodwill calculation."
+```
+
+### 🎯 **Specific IFRS Queries**
+
+#### **Technical IFRS Questions**
+```
+"Explain our lease classification decisions. Why are certain leases treated as finance vs operating under previous standards?"
+```
+
+```
+"Document our significant accounting estimates and judgments for:
+- ECL model parameters
+- Asset useful lives
+- Impairment indicators
+- Revenue contract terms"
+```
+
+#### **Compliance Verification**
+```
+"Verify our IFRS 15 revenue recognition is compliant. Check all contracts for proper performance obligation identification and transaction price allocation."
+```
+
+```
+"Review our IFRS 16 lease accounting. Are all leases properly identified and measured? Check for any embedded leases in service contracts."
+```
+
+## 🛠️ Available MCP Tools (24+)
+
+### 📊 **Database Query Tools (10)**
+- `get_database_schema` - Complete database structure
 - `get_trial_balance` - Foundation data for statements
+- `get_ifrs_mapped_accounts` - Chart of accounts with IFRS mapping
 - `get_fixed_assets_register` - Asset details for depreciation
 - `get_lease_portfolio` - Active leases for IFRS 16
 - `get_revenue_contracts` - Contract details for IFRS 15
 - `get_receivables_aging` - AR aging for ECL calculation
+- `get_subsidiaries` - Group entities for consolidation
+- `get_intercompany_transactions` - Elimination requirements
+- `get_equity_investments` - Associates and joint ventures
 
-### IFRS Calculation Tools (6)
+### 🧮 **IFRS Calculation Tools (8)**
 - `calculate_ifrs16_lease_liability` - Lease accounting calculations
 - `calculate_ifrs9_expected_credit_loss` - ECL provisions
 - `calculate_ias16_asset_depreciation` - Depreciation schedules
 - `calculate_ifrs15_revenue_recognition` - Revenue recognition
 - `perform_ias36_impairment_test` - Asset impairment testing
-- Plus additional specialized calculations
+- `get_consolidation_adjustments` - Elimination entries
+- `get_non_controlling_interests` - NCI calculations
+- Plus specialized calculation functions
 
-### Statement Generation Tools (4)
+### 📋 **Statement Generation Tools (6)**
 - `generate_ifrs_profit_loss_statement` - P&L with IFRS adjustments
 - `generate_ifrs_balance_sheet` - Statement of Financial Position
 - `generate_ifrs_cash_flow_statement` - Cash flow statement
 - `generate_ifrs_disclosure_notes` - Professional disclosure notes
+- `generate_ifrs10_consolidated_profit_loss` - Consolidated P&L
+- Plus additional consolidation statements
 
-## 📊 Sample Data Included
+## 📊 Comprehensive Sample Data
 
-The system comes with realistic sample data:
-- 4 fixed assets with depreciation schedules
-- 3 active leases for IFRS 16 testing
-- 20 receivables with aging for ECL calculation
-- 5 revenue contracts for IFRS 15 analysis
-- Complete chart of accounts with IFRS mapping
+### 🏢 **Enterprise-Grade Dataset**
+- **30 customers** including Microsoft, Amazon AWS, Goldman Sachs, Toyota
+- **33 high-value products** across Enterprise Software, Cloud, AI/ML, IoT
+- **$6.04 billion revenue** across 3 years (2024-2026)
+- **1,017+ orders** with 6,588+ line items
+- **$1.93 billion receivables** with proper ECL staging
+
+### 🌐 **Consolidation Structure**
+- **5 subsidiaries** across USA, Germany, Singapore, Canada
+- **$46.5M acquisition investment** with $7M goodwill
+- **$7.1M intercompany eliminations** (sales, loans, fees)
+- **$4.1M non-controlling interests** in 2 subsidiaries
+- **Multi-currency operations** (USD, EUR, SGD, CAD)
+
+### 🏗️ **IFRS Assets & Scenarios**
+- **$32.7M fixed assets** (buildings, equipment, vehicles)
+- **$16M revenue contracts** with complex performance obligations
+- **12 IFRS adjustments** across multiple years
+- **310 receivables** with Stage 1/2/3 ECL classification
 
 ## 🎨 Output Formats
 
-- **Structured JSON** for programmatic use
-- **Formatted tables** for easy reading
-- **Professional PDF reports** for audit documentation
-- **Excel exports** for further analysis
+- **Structured JSON** for programmatic integration
+- **Professional tables** with proper formatting
+- **Audit-ready documentation** with calculations
+- **Excel-compatible exports** for further analysis
+- **PDF reports** for stakeholder distribution
 
 ## 💼 Perfect For
 
-- **CFOs & Finance Teams** preparing IFRS statements
+### 👥 **Finance Professionals**
+- **CFOs & Finance Directors** preparing IFRS statements
+- **Financial Controllers** implementing IFRS standards
+- **Management Accountants** performing analysis
+- **Treasury Teams** managing financial risks
+
+### 🔍 **External Stakeholders**
 - **External Auditors** reviewing IFRS compliance
 - **Financial Consultants** implementing IFRS
+- **Investment Analysts** analyzing financial performance
+- **Regulatory Bodies** reviewing compliance
+
+### 🤖 **Technology Integration**
 - **AI Assistants** providing financial analysis
 - **ERP Systems** needing IFRS reporting
+- **Financial Planning Tools** requiring IFRS data
+- **Business Intelligence Platforms** for analytics
 
-## 🔒 Data Security
+## 🔒 Security & Compliance
 
-- Read-only access to your ERP database
-- No data modification capabilities
-- Local processing - your data stays on your servers
-- Audit trail of all calculations
+- ✅ **Read-only database access** - No data modification
+- ✅ **Local processing** - Your data stays on your servers
+- ✅ **Audit trail** - All calculations are documented
+- ✅ **IFRS compliant** - Follows latest standards
+- ✅ **Professional quality** - Audit-ready outputs
 
 ## 📈 Business Impact
 
-- **Reduce** manual IFRS calculations from days to minutes
+### ⚡ **Efficiency Gains**
+- **Reduce** IFRS calculations from days to minutes
+- **Automate** complex consolidation procedures
+- **Eliminate** manual calculation errors
+- **Accelerate** month-end and year-end reporting
+
+### 🎯 **Quality Improvements**
 - **Ensure** compliance with latest IFRS standards
 - **Generate** audit-ready documentation automatically
-- **Eliminate** calculation errors and inconsistencies
-- **Accelerate** month-end and year-end reporting
+- **Provide** consistent calculation methodologies
+- **Enable** real-time financial analysis
+
+### 💰 **Cost Savings**
+- **Reduce** external consultant fees
+- **Minimize** audit preparation time
+- **Decrease** compliance risks
+- **Improve** decision-making speed
+
+## 🚀 Getting Started Examples
+
+### Basic IFRS Analysis
+```
+"Show me our current financial position. Generate a trial balance and identify any IFRS adjustments needed for leases, receivables, and depreciation."
+```
+
+### Comprehensive Reporting
+```
+"Prepare our year-end IFRS financial statements with full consolidation, including all subsidiaries, intercompany eliminations, and required disclosures."
+```
+
+### Specific Standard Focus
+```
+"Focus on IFRS 16 compliance. Show me all our leases, calculate the balance sheet impact, and prepare the lease disclosure note."
+```
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions! Areas for enhancement:
 
-### Quick Contribution Areas
-- 🌍 Multi-currency support (IAS 21)
-- 🏢 Consolidation accounting (IFRS 10) 
-- 📊 Enhanced analytics and dashboards
-- 📚 Documentation improvements
-- 🧪 Additional test scenarios
+- 🌍 **Multi-currency** support (IAS 21)
+- 📊 **Enhanced analytics** and dashboards  
+- 🏢 **Additional consolidation** features
+- 📚 **Documentation** improvements
+- 🧪 **More test scenarios**
+
+See our [Contributing Guide](CONTRIBUTING.md) for details.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) file for details.
 
-## ⭐ Support
+## ⭐ Support the Project
 
-If this project helps you, please consider:
-- ⭐ Starring the repository
-- 🐛 Reporting bugs via [Issues](https://github.com/Alielber1010/erp-agent-mcp/issues)
-- 💡 Suggesting features via [Discussions](https://github.com/Alielber1010/erp-agent-mcp/discussions)
-- 🤝 Contributing code via [Pull Requests](https://github.com/Alielber1010/erp-agent-mcp/pulls)
+If this system helps your financial reporting:
+- ⭐ **Star the repository**
+- 🐛 **Report bugs** via Issues
+- 💡 **Suggest features** via Discussions  
+- 🤝 **Contribute code** via Pull Requests
 
-## 🔗 Related Projects
+## 🔗 Related Resources
 
-- [FastMCP](https://github.com/jlowin/fastmcp) - The MCP framework powering this server
+- [FastMCP Framework](https://github.com/jlowin/fastmcp) - Powers this MCP server
 - [Model Context Protocol](https://github.com/modelcontextprotocol) - Official MCP specification
+- [IFRS Foundation](https://www.ifrs.org/) - Official IFRS standards
 
 ---
 
-**Ready to transform your financial reporting?** 
-[⚡ Get Started](https://github.com/Alielber1010/erp-agent-mcp#-quick-start) | [📖 Documentation](https://github.com/Alielber1010/erp-agent-mcp/wiki) | [💬 Discussions](https://github.com/Alielber1010/erp-agent-mcp/discussions)
+**🎯 Ready to revolutionize your financial reporting?**
+
+[⚡ Quick Start](#-quick-start) | [📖 Full Documentation](https://github.com/Alielber1010/erp-agent-mcp/wiki) | [💬 Community Discussions](https://github.com/Alielber1010/erp-agent-mcp/discussions)
+
+*Transform complex IFRS requirements into simple AI conversations.*
